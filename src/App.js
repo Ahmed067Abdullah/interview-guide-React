@@ -1,26 +1,46 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import Auth from "./Containers/Auth/Auth";
+// import { BrowserRouter as Router } from "react-router-dom";
+// import { connect } from "react-redux";
 
-function App() {
+// import { setSignedIn } from "./store/actions/authActions";
+// import getRoutes from "./routes";
+
+const App = ({ setSignedIn, status }) => {
+  // useEffect(() => {
+  //   checkLoggedIn();
+  // }, []);
+
+  // const checkLoggedIn = () => {
+  //   const user = JSON.parse(localStorage.getItem("crs"));
+  //   if (user) {
+  //     setSignedIn(user);
+  //   }
+  // };
+
+  // let routes = getRoutes(status);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    // <Router>
+    //   <div className="App">{routes}</div>
+    // </Router>
+    <Auth />
   );
-}
+};
 
+// const mapStateToProps = state => {
+//   return {
+//     status: state.auth.status,
+//   };
+// };
+
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     setSignedIn: user => dispatch(setSignedIn(user)),
+//   };
+// };
+
+// export default connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )(App);
 export default App;
