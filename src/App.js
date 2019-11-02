@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Auth from "./Containers/Auth/Auth";
+import Auth from "./containers/Auth/Auth";
 // import { BrowserRouter as Router } from "react-router-dom";
 // import { connect } from "react-redux";
 

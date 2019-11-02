@@ -1,9 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { withStyles } from "@material-ui/core/styles";
-import styles from "./Questions.styles";
+import { connect } from "react-redux";
+import styles from "./Auth.styles";
+import { signin, signup } from "./Auth.service";
 
-const Auth = () => {
-  return <div>Auth</div>;
+const Auth = ({user}) => {
+  return <div>Auth, {user}</div>;
 };
 
-export default withStyles(styles)(Auth);
+const mapStateToProps = state => ({
+  user: state.auth.user,
+});
+
+const mapDispatchToProps = dispatch => ({
+  callSignin: () => dispatch(signin()),
+  callSignup: () => dispatch(signup()),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(Auth));
