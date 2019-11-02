@@ -1,7 +1,7 @@
 import actionTypes from "./Auth.action";
 
 const initialState = {
-  user: "ahmed",
+  user: null,
 };
 
 const reducer = (state = initialState, { type, data }) => {

@@ -4,8 +4,8 @@ import { connect } from "react-redux";
 import styles from "./Auth.styles";
 import { signin, signup } from "./Auth.service";
 
-const Auth = ({user}) => {
-  return <div>Auth, {user}</div>;
+const Auth = ({user, history}) => {
+  return <div onClick={() => history.push('/questions')}>Auth, {user}</div>;
 };
 
 const mapStateToProps = state => ({

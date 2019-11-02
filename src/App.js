@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
-import Auth from "./containers/Auth/Auth";
-// import { BrowserRouter as Router } from "react-router-dom";
-// import { connect } from "react-redux";
+import { BrowserRouter as Router } from "react-router-dom";
+import { connect } from "react-redux";
 
-// import { setSignedIn } from "./store/actions/authActions";
-// import getRoutes from "./routes";
+import { setUser } from "./containers/Auth/Auth.action";
+import getRoutes from "./routes";
 
-const App = ({ setSignedIn, status }) => {
+const App = ({ setUser, status }) => {
   // useEffect(() => {
   //   checkLoggedIn();
   // }, []);
@@ -18,29 +17,27 @@ const App = ({ setSignedIn, status }) => {
   //   }
   // };
 
-  // let routes = getRoutes(status);
+  let routes = getRoutes(status);
   return (
-    // <Router>
-    //   <div className="App">{routes}</div>
-    // </Router>
-    <Auth />
+    <Router>
+      <div className="App">{routes}</div>
+    </Router>
   );
 };
 
-// const mapStateToProps = state => {
-//   return {
-//     status: state.auth.status,
-//   };
-// };
+const mapStateToProps = state => {
+  return {
+    status: state.auth.user,
+  };
+};
 
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     setSignedIn: user => dispatch(setSignedIn(user)),
-//   };
-// };
+const mapDispatchToProps = dispatch => {
+  return {
+    setUser: user => dispatch(setUser(user)),
+  };
+};
 
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(App);
-export default App;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);

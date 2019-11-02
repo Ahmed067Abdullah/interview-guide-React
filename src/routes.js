@@ -2,8 +2,8 @@ import React from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
 
 // Containers
-import Auth from "./containers/Auth/SignIn/SignIn";
-import Questions from './containers/Questions/Questions'
+import Auth from "./containers/Auth/Auth";
+import Questions from "./containers/Questions/Questions";
 import Logout from "./containers/Auth/Logout/Logout";
 
 const getRoutes = status => {
@@ -24,7 +24,6 @@ const getRoutes = status => {
       </Switch>
     );
   }
-
   return routes;
 };
 
