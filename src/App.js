@@ -6,17 +6,16 @@ import { setUser } from "./containers/Auth/Auth.action";
 import getRoutes from "./routes";
 
 const App = ({ setUser, status }) => {
-  // useEffect(() => {
-  //   checkLoggedIn();
-  // }, []);
+  useEffect(() => {
+    checkLoggedIn();
+  }, []);
 
-  // const checkLoggedIn = () => {
-  //   const user = JSON.parse(localStorage.getItem("crs"));
-  //   if (user) {
-  //     setSignedIn(user);
-  //   }
-  // };
-
+  const checkLoggedIn = () => {
+    const user = JSON.parse(localStorage.getItem("interview-guide"));
+    if (user) {
+      setUser(user);
+    }
+  };
   let routes = getRoutes(status);
   return (
     <Router>

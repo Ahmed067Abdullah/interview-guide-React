@@ -28,6 +28,11 @@ const styles = {
       fontWeight: '500',
       margin: '5px 0 10px'
     },
+    'error-text': {
+      margin: 0,
+      fontSize: '14px',
+      color: colors.error
+    },
     'toggle-text': {
       color: colors.textColor,
       fontSize: '14px',

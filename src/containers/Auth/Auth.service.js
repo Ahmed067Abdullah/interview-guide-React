@@ -3,12 +3,13 @@ import dispatcher from "../../store/dispater";
 import { setUser } from "./Auth.action";
 import { LOGOUT } from "../../utils/constants";
 
-export const successfullyAuthenticated = user => {
-  setUser(user);
+export const successfullyAuthenticated = (user,history, dispatch) => {
+  dispatch(setUser(user));
   localStorage.setItem("interview-guide", JSON.stringify(user));
+  history.replace('/questions');
 };
 
-export const signup = ({ name, email, password }) => dispatch =>
+export const signup = ({ name, email, password }, history) => dispatch =>
   new Promise((resolve, reject) => {
     auth()
       .createUserWithEmailAndPassword(email, password)
@@ -16,13 +17,13 @@ export const signup = ({ name, email, password }) => dispatch =>
         const uid = res.user.uid;
         database()
           .ref(`users/${uid}`)
-          .set({ name, email })
+          .set({ uid, name, email })
           .then(res => {
             successfullyAuthenticated({
               uid,
               email,
               name,
-            });
+            }, history, dispatch);
           })
           .catch(err => reject("Error occured while storing user info"));
       })
@@ -37,10 +38,10 @@ export const signup = ({ name, email, password }) => dispatch =>
       });
   });
 
-export const signin = ({ email, passwordSignin }) => dispatch =>
+export const signin = ({ email, password }, history) => dispatch =>
   new Promise((resolve, reject) => {
     auth()
-      .signInWithEmailAndPassword(email, passwordSignin)
+      .signInWithEmailAndPassword(email, password)
       .then(res => {
         const uid = res.user.uid;
         database()
@@ -52,7 +53,7 @@ export const signin = ({ email, passwordSignin }) => dispatch =>
                 uid,
                 email,
                 name: res.val().name,
-              });
+              },history, dispatch);
             } else {
               reject("Can't find user details");
             }

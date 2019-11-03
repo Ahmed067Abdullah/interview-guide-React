@@ -7,7 +7,7 @@ import Button from "../../components/Button/Button";
 import InputField from "../../components/InputField/InputField";
 import { Formik } from "formik";
 
-const Auth = ({ classes, user, callSignin, callSignup }) => {
+const Auth = ({ classes, user, callSignin, callSignup, history }) => {
   const [isSigningIn, setIsSigningIn] = useState(true);
   const [errorSignin, setErrorSignin] = useState("");
   const [errorSignup, setErrorSignup] = useState("");
@@ -19,16 +19,19 @@ const Auth = ({ classes, user, callSignin, callSignup }) => {
   let heading = "Sign Up";
   let toggleText = "Already have an account?";
   let toggleLink = "Sign in";
+  let error = errorSignup;
   if (isSigningIn) {
     heading = "Sign In";
     toggleText = "Don't have an account?";
     toggleLink = "Sign up";
+    error = errorSignin;
   }
 
   return (
     <div className={classes["auth-container"]}>
       <div className={classes["auth-card"]}>
         <p className={classes["main-heading"]}>{heading}</p>
+        <p className={classes["error-text"]}>{error}</p>
         <Formik
           initialValues={{ email: "", password: "", name: "" }}
           validate={values => {
@@ -43,14 +46,23 @@ const Auth = ({ classes, user, callSignin, callSignup }) => {
             if (!values.password.trim()) {
               errors.password = "Required";
             }
-            if (!values.name.trim()) {
+            if (!(isSigningIn || values.name.trim())) {
               errors.name = "Required";
             }
             return errors;
           }}
           onSubmit={(values, { setSubmitting }) => {
-            console.log(values);
-            // setSubmitting(true);
+            setSubmitting(true);
+            const { name, email, password } = values;
+            if (isSigningIn) {
+              callSignin({ email, password }, history).catch(err =>
+                setErrorSignin(err)
+              );
+            } else {
+              callSignup({ name, email, password }, history).catch(err =>
+                setErrorSignup(err)
+              );
+            }
           }}
         >
           {({
@@ -121,8 +133,8 @@ const Auth = ({ classes, user, callSignin, callSignup }) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  callSignin: () => dispatch(signin()),
-  callSignup: () => dispatch(signup()),
+  callSignin: (user, history) => dispatch(signin(user, history)),
+  callSignup: (user, history) => dispatch(signup(user, history)),
 });
 
 export default connect(
