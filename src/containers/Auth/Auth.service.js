@@ -1,7 +1,6 @@
 import { database, auth } from "firebase";
 import dispatcher from "../../store/dispater";
-import { setUser } from "./Auth.action";
-import { LOGOUT } from "../../utils/constants";
+import { setUser, clearState } from "./Auth.action";
 
 export const successfullyAuthenticated = (user,history, dispatch) => {
   dispatch(setUser(user));
@@ -75,6 +74,7 @@ export const signin = ({ email, password }, history) => dispatch =>
   });
 
 export const logout = () => dispatch => {
+  console.log('here')
   localStorage.removeItem("interview-guide");
-  dispatcher(dispatch(LOGOUT));
+  dispatcher(dispatch(clearState()));
 };

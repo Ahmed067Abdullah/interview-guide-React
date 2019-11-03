@@ -11,6 +11,7 @@ const Auth = ({ classes, user, callSignin, callSignup, history }) => {
   const [isSigningIn, setIsSigningIn] = useState(true);
   const [errorSignin, setErrorSignin] = useState("");
   const [errorSignup, setErrorSignup] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const toggleForm = () => {
     setIsSigningIn(!isSigningIn);
@@ -52,16 +53,18 @@ const Auth = ({ classes, user, callSignin, callSignup, history }) => {
             return errors;
           }}
           onSubmit={(values, { setSubmitting }) => {
-            setSubmitting(true);
             const { name, email, password } = values;
+            setLoading(true);
             if (isSigningIn) {
-              callSignin({ email, password }, history).catch(err =>
-                setErrorSignin(err)
-              );
+              callSignin({ email, password }, history).catch(err => {
+                setErrorSignin(err);
+                setLoading(false);
+              });
             } else {
-              callSignup({ name, email, password }, history).catch(err =>
-                setErrorSignup(err)
-              );
+              callSignup({ name, email, password }, history).catch(err => {
+                setErrorSignup(err);
+                setLoading(false);
+              });
             }
           }}
         >
@@ -72,13 +75,12 @@ const Auth = ({ classes, user, callSignin, callSignup, history }) => {
             handleChange,
             handleBlur,
             handleSubmit,
-            isSubmitting,
           }) => (
             <form
               onSubmit={handleSubmit}
               style={{
                 width: "350px",
-                pointerEvents: isSubmitting ? "none" : "",
+                pointerEvents: loading ? "none" : "",
               }}
             >
               {isSigningIn ? null : (
@@ -113,7 +115,7 @@ const Auth = ({ classes, user, callSignin, callSignup, history }) => {
               />
               <Button
                 type="submit"
-                disabled={isSubmitting}
+                disabled={loading}
                 className={classes["submit-btn"]}
               >
                 Submit
