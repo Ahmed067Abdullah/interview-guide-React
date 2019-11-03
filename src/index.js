@@ -5,11 +5,11 @@ import {Provider} from 'react-redux';
 
 import App from './App';
 import initializeStore from './store/store';
-// import initializeFirebase from './firebase';
+import initializeFirebase from './firebase';
 
 import * as serviceWorker from './serviceWorker';
 
-// initializeFirebase();
+initializeFirebase();
 
 const store = initializeStore();
 
