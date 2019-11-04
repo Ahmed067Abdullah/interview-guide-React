@@ -1,13 +1,16 @@
 import React from "react";
-import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core/styles";
 import styles from "./Navbar.styles";
-import { logout } from "../../containers/Auth/Auth.service";
 
-const Navbar = ({ classes, callLogout }) => {
+const Navbar = ({ classes, showModal, callLogout }) => {
   return (
     <div className={classes.container}>
-      <span className={classes["navbar-action"]}>Share Question</span>
+      <span
+        className={classes["navbar-action"]}
+        onClick={() => showModal(true)}
+      >
+        Share Question
+      </span>
       <span className={classes["navbar-action"]} onClick={callLogout}>
         Logout
       </span>
@@ -15,11 +18,4 @@ const Navbar = ({ classes, callLogout }) => {
   );
 };
 
-const mapDispatchToProps = dispatch => ({
-  callLogout: () => dispatch(logout()),
-});
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(withStyles(styles)(Navbar));
+export default withStyles(styles)(Navbar);

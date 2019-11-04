@@ -52,7 +52,7 @@ const Auth = ({ classes, user, callSignin, callSignup, history }) => {
             }
             return errors;
           }}
-          onSubmit={(values, { setSubmitting }) => {
+          onSubmit={values => {
             const { name, email, password } = values;
             setLoading(true);
             if (isSigningIn) {
