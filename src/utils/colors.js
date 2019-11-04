@@ -3,7 +3,8 @@ const colors = {
     textColor: '#4E4E4E',
     bgColor: '#F3F3F3',
     white: '#FFF',
-    error: '#F44336'
+    error: '#F44336',
+    success: '#43A047'
 }
 
 export default colors;

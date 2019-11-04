@@ -17,13 +17,30 @@ const styles = {
   'heading': {
     color: colors.textColor,
     fontWeight: 500,
-    fontSize: 20,
+    fontSize: 24,
     margin: '10px 0'
   },
   'info-text': {
     color: colors.textColor,
     fontSize: 12,
     margin: '-7px 0 0 5px'
+  },
+  'interview-type-container':{
+    display: 'flex',
+    alignItems: 'center',
+    marginTop: '5px',
+    marginBottom: '-10px',
+    '& > span': {
+      marginRight: '10px',
+      marginBottom: '5px',
+      color: colors.textColor,
+      fontWeight: 500
+    }
+  },
+  'label': {
+    '& span': {
+      fontSize: '14px'
+    }
   },
   'submit-btn': {
     width: '100%',
