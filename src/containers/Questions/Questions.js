@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import AddQuestionModal from "../../components/AddQuestionModal/AddQuestionModal";
+import Question from "../../components/Question/Question";
 import { withStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 import { logout } from "../Auth/Auth.service";
-import { addQuestion } from "./Questions.service";
+import { addQuestion, getAllQuestions } from "./Questions.service";
 import styles from "./Questions.styles";
 
 const Questions = ({ callLogout, classes, user }) => {
-  const [questions, setQuestions] = useState([]);
+  const [allQuestions, setAllQuestions] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [showAddModal, setShowAddModal] = useState(true);
+  const [showAddModal, setShowAddModal] = useState(false);
 
   useEffect(() => {
-    // apply listener here, also deal with loading variable
+    getAllQuestions().then(questions => setAllQuestions([...questions]));
   }, []);
 
   return (
@@ -25,14 +26,17 @@ const Questions = ({ callLogout, classes, user }) => {
         handleClose={setShowAddModal}
         user={user}
       />
-      Question list
+      <div className={classes["questions-container"]}>
+        {allQuestions.length &&
+          allQuestions.map(q => <Question question={q} />)}
+      </div>
     </div>
   );
 };
 
 const mapStateToProps = state => ({
-  user: state.auth.user
-})
+  user: state.auth.user,
+});
 
 const mapDispatchToProps = dispatch => ({
   callLogout: () => dispatch(logout()),

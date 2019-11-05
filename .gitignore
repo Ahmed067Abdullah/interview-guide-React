@@ -22,3 +22,4 @@ firebaseConfig.js
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.firebase/hosting.0.cache
