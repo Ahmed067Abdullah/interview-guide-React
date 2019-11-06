@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import { logout } from "../Auth/Auth.service";
 import { addQuestion, getAllQuestions } from "./Questions.service";
 import styles from "./Questions.styles";
+import Loader from "../../components/Loader/Loader";
 
 const Questions = ({ callLogout, classes, user }) => {
   const [allQuestions, setAllQuestions] = useState([]);
@@ -14,7 +15,8 @@ const Questions = ({ callLogout, classes, user }) => {
   const [showAddModal, setShowAddModal] = useState(false);
 
   useEffect(() => {
-    getAllQuestions().then(questions => setAllQuestions([...questions]));
+    setLoading(true);
+    getAllQuestions().then(questions => setAllQuestions([...questions])).finally(() => setLoading(false))
   }, []);
 
   return (
@@ -27,7 +29,7 @@ const Questions = ({ callLogout, classes, user }) => {
         user={user}
       />
       <div className={classes["questions-container"]}>
-        {allQuestions.length &&
+        {loading ? <div className={classes['main-loader-container']}><Loader/></div> :
           allQuestions.map(q => <Question question={q} />)}
       </div>
     </div>

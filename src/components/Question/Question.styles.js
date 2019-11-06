@@ -11,6 +11,7 @@ const styles = {
     margin: "5px 0",
     fontSize: "18px",
     color: colors.textColor,
+    wordBreak: "break-word",
     "& >span": {
       fontWeight: "500",
     },
@@ -22,17 +23,22 @@ const styles = {
     "& >span": {
       fontWeight: "500",
       marginLeft: "5px",
+      wordBreak: "break-word",
     },
   },
-  'normal-text': {
+  "normal-text": {
     margin: "5px 0",
     color: colors.textColor,
+    wordBreak: "break-word",
     "& >span": {
       fontWeight: "500",
       marginRight: "5px",
-    }, 
+    },
   },
   "question-info": {
+    "@media(max-width:600px)": {
+      flexDirection: "column",
+    },
     display: "flex",
     justifyContent: "space-between",
   },

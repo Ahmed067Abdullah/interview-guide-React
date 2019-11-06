@@ -5,6 +5,11 @@ const styles = {
     maxWidth: '1000px',
     margin: 'auto'
   },
+  'main-loader-container': {
+    height: 'calc(100vh - 50px)',
+    display: 'flex',
+    alignItems: 'center'
+  }
 };
 
 export default styles;
