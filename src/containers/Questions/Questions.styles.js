@@ -1,3 +1,5 @@
+import colors from "../../utils/colors";
+
 const styles = {
   'questions-container': {
     width: '80%',
@@ -8,7 +10,11 @@ const styles = {
   'main-loader-container': {
     height: 'calc(100vh - 50px)',
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '20px',
+    color: colors.textColor,
+    fontWeight: 500
   }
 };
 

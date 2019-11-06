@@ -16,7 +16,7 @@ const Questions = ({ callLogout, classes, user }) => {
 
   useEffect(() => {
     setLoading(true);
-    getAllQuestions().then(questions => setAllQuestions([...questions])).finally(() => setLoading(false))
+    getAllQuestions(setAllQuestions, setLoading);
   }, []);
 
   return (
@@ -29,8 +29,17 @@ const Questions = ({ callLogout, classes, user }) => {
         user={user}
       />
       <div className={classes["questions-container"]}>
-        {loading ? <div className={classes['main-loader-container']}><Loader/></div> :
-          allQuestions.map(q => <Question question={q} />)}
+        {loading ? (
+          <div className={classes["main-loader-container"]}>
+            <Loader />
+          </div>
+        ) : allQuestions.length ? (
+          allQuestions.map(q => <Question question={q} />)
+        ) : (
+          <div className={classes["main-loader-container"]}>
+            No Questions to Show
+          </div>
+        )}
       </div>
     </div>
   );

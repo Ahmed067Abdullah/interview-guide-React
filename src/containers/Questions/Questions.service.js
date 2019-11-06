@@ -9,11 +9,11 @@ export const addQuestion = question =>
       .catch(err => reject("Error occured while storing user info"));
   });
 
-export const getAllQuestions = () =>
-  new Promise((resolve, reject) => {
-    database()
-      .ref(`questions/`)
-      .on("value", snapshot => {
-        resolve(Object.values(snapshot.val()));
-      });
-  });
+export const getAllQuestions = (setQuestions, setLoading) => {
+  database()
+    .ref(`questions/`)
+    .on("value", snapshot => {
+      setQuestions(Object.values(snapshot.val()).reverse());
+      setLoading(false);
+    });
+};

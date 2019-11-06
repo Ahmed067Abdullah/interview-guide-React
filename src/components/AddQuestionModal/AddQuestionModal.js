@@ -157,7 +157,7 @@ const AddQuestionModal = ({
                 error={touched.position && errors.position}
               />
               {renderInfoText(
-                "e.g Front end developer, back end developer, QA, etc"
+                "e.g React intern, back end developer, QA, designer, etc"
               )}
               <div className={classes["interview-type-container"]}>
                 <span>Interview Type: </span>
@@ -202,7 +202,7 @@ const AddQuestionModal = ({
                 error={touched.links && errors.links}
               />
               {renderInfoText(
-                "Related references to Stack Overflow, Youtube, Wikipedia, etc"
+                "Related references to Stack Overflow, Youtube, Wikipedia, etc. You can provide multiple space separated link"
               )}
               <InputField
                 id="tags"
@@ -214,7 +214,7 @@ const AddQuestionModal = ({
                 error={touched.tags && errors.tags}
               />
               {renderInfoText(
-                "Tags would help others to quickly filter related questions. E.g: Data Structures, OOP, Javascript, Polymorphism, etc"
+                "Tags would help others to quickly filter related questions. E.g: OOP, datastructures, javascript, polymorphism, etc"
               )}
               <Button
                 type="submit"
