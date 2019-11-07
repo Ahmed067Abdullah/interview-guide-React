@@ -16,7 +16,17 @@ const styles = {
     fontSize: '14px',
     border: `1px solid ${colors.bgColor}`,
     borderRadius: '6px',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    position: 'relative'
+  },
+  'filters-symbol': {
+    position: 'absolute',
+    height: '10px',
+    width: '10px',
+    background: colors.bgColor,
+    borderRadius:'50%',
+    top: '-3px',
+    right: '-4px',
   }
 };
 

@@ -9,14 +9,15 @@ const IGButton = ({
   onClick,
   className,
   type,
+  color = "primary",
   disabled,
 }) => {
   return (
     <Button
       disabled={disabled}
+      color={color}
       type={type}
       variant="contained"
-      color="primary"
       onClick={onClick}
       className={`${classes["default-class-button"]} ${className}`}
     >

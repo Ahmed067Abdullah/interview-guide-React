@@ -7,10 +7,18 @@ import moment from "moment";
 
 const Question = ({ classes, question }) => (
   <div className={classes["question-container"]}>
-    <p className={classes["small-text"]}>
-      <i className="fas fa-flag"></i>
-      <span>{question.interviewType}</span>
-    </p>
+    <div className={classes["question-info"]}>
+      <p className={classes["small-text"]}>
+        <i className="fas fa-user-tie"></i>
+        <span>
+          {question.company} ({question.interviewType})
+        </span>
+      </p>
+      <p className={classes["small-text"]}>
+        <i className="fas fa-flag"></i>
+        <span>{question.position}</span>
+      </p>
+    </div>
     <p className={classes["question"]}>
       Q. <span>{question.question}</span>
     </p>
