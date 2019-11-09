@@ -5,13 +5,14 @@ import Question from "../../components/Question/Question";
 import { withStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 import { logout } from "../Auth/Auth.service";
-import { addQuestion, getAllQuestions } from "./Questions.service";
+import { addQuestion, getAllQuestions, getAllCompanies } from "./Questions.service";
 import styles from "./Questions.styles";
 import Loader from "../../components/Loader/Loader";
 import FiltersModal from "../../components/FiltersModal/FiltersModal";
 
 const Questions = ({ callLogout, classes, user }) => {
   const [allQuestions, setAllQuestions] = useState([]);
+  const [allCompanies, setAllCompanies] = useState([]);
   const [filters, setFilters] = useState({
     text: "",
     company: "",
@@ -26,6 +27,7 @@ const Questions = ({ callLogout, classes, user }) => {
   useEffect(() => {
     setLoading(true);
     getAllQuestions(setAllQuestions, setLoading);
+    getAllCompanies(setAllCompanies);
   }, []);
 
   const search = (array, searchKey, searchText) => {
@@ -94,11 +96,13 @@ const Questions = ({ callLogout, classes, user }) => {
         addQuestion={addQuestion}
         open={showAddModal}
         handleClose={setShowAddModal}
+        companies={allCompanies}
         user={user}
       />
       <FiltersModal
         setFilters={setFilters}
         open={showFiltersModal}
+        companies={allCompanies}
         handleClose={setShowFiltersModal}
       />
       <div className={classes["questions-container"]}>

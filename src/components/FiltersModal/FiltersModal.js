@@ -16,8 +16,9 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const FiltersModal = ({ classes, open, handleClose, setFilters }) => {
+const FiltersModal = ({ classes, open, companies, handleClose, setFilters }) => {
   const [interviewType, setInterviewType] = useState("All");
+  const [company,  setCompany] = useState('');
 
   const renderInfoText = text => <p className={classes["info-text"]}>{text}</p>;
 
@@ -27,7 +28,6 @@ const FiltersModal = ({ classes, open, handleClose, setFilters }) => {
   const clearFilters = () => {
     setFilters({
       text: "",
-      company: "",
       position: "",
       tags: "",
       type: "",
@@ -57,11 +57,10 @@ const FiltersModal = ({ classes, open, handleClose, setFilters }) => {
         <Formik
           initialValues={{
             text: "",
-            company: "",
             position: "",
             tags: "",
           }}
-          onSubmit={({ text, company, position, tags }) => {
+          onSubmit={({ text, position, tags }) => {
             setFilters({
               text: text.trim(),
               company: company.trim(),
@@ -85,14 +84,12 @@ const FiltersModal = ({ classes, open, handleClose, setFilters }) => {
               {renderInfoText(
                 "Text in question/answer"
               )}
-              <InputField
-                id="company"
-                name="company"
-                label="Company"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.company}
-              />
+              <Select
+                  label="Company"
+                  handleChange={e => setCompany(e.target.value)}
+                  value={company}
+                  options={companies}
+                />
               <InputField
                 id="position"
                 name="position"

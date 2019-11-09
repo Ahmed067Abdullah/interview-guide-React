@@ -13,6 +13,7 @@ import { useTheme } from "@material-ui/core/styles";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import CreatableSelect from "react-select/creatable";
 import IGSnackbar from "../Snackbar/Snackbar";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -21,6 +22,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const AddQuestionModal = ({
   classes,
+  companies,
   open,
   handleClose,
   addQuestion,
@@ -30,6 +32,7 @@ const AddQuestionModal = ({
   const [interviewType, setInterviewType] = useState("Technical");
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [snackbarText, setSnackbarText] = useState("");
+  const [company, setCompany] = useState("");
 
   const closeModal = () => {
     if (loading) return;
@@ -71,7 +74,6 @@ const AddQuestionModal = ({
         <Formik
           initialValues={{
             question: "",
-            company: "",
             answer: "",
             links: "",
             position: "",
@@ -81,9 +83,6 @@ const AddQuestionModal = ({
             const errors = {};
             if (!values.question.trim()) {
               errors.question = "Required";
-            }
-            if (!values.company.trim()) {
-              errors.company = "Required";
             }
             if (!values.position.trim()) {
               errors.position = "Required";
@@ -96,20 +95,21 @@ const AddQuestionModal = ({
           onSubmit={values => {
             const apiData = { ...values };
             apiData.interviewType = interviewType;
+            apiData.company = company.label;
             apiData.createdAt = Date.now();
             apiData.createdBy = user.uid;
             apiData.createdByName = user.name;
             setLoading(true);
-            addQuestion(apiData)
+            addQuestion(apiData, company)
               .then(res => {
-                setShowSnackbar('success');
+                setShowSnackbar("success");
                 setSnackbarText("Question shared successfully!");
                 values.question = "";
                 values.answer = "";
                 values.links = "";
               })
               .catch(err => {
-                setShowSnackbar('error');
+                setShowSnackbar("error");
                 setSnackbarText("Error occured while sharing question");
               })
               .finally(() => setLoading(false));
@@ -138,15 +138,13 @@ const AddQuestionModal = ({
                 value={values.question}
                 error={touched.question && errors.question}
               />
-              <InputField
-                id="company"
-                name="company"
-                label="Company"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.company}
-                error={touched.company && errors.company}
+              <CreatableSelect
+                isClearable
+                onChange={setCompany}
+                options={companies}
+                value={company}
               />
+
               <InputField
                 id="position"
                 name="position"
