@@ -15,6 +15,7 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import CreatableSelect from "react-select/creatable";
 import IGSnackbar from "../Snackbar/Snackbar";
+import dropdownStyles from "./dropdownStyles";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -140,18 +141,25 @@ const AddQuestionModal = ({
               <CreatableSelect
                 isClearable
                 onChange={setCompany}
+                placeholder="Company"
                 options={companies}
+                styles={dropdownStyles}
                 value={company}
               />
+              {renderInfoText(
+                "If your company is not listed then you can type it's name. It would be available in the options once you submit the form"
+              )}
 
               <CreatableSelect
                 isClearable
                 onChange={setPosition}
                 options={positions}
+                placeholder="Position"
+                styles={dropdownStyles}
                 value={position}
               />
               {renderInfoText(
-                "e.g React intern, back end developer, QA, designer, etc"
+                "If your position is not listed then you can type it. It would be available in the options once you submit the form. E.g React intern, back end developer, QA, designer, etc"
               )}
               <div className={classes["interview-type-container"]}>
                 <span>Interview Type: </span>
