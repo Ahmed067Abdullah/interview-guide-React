@@ -23,6 +23,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const AddQuestionModal = ({
   classes,
   companies,
+  positions,
   open,
   handleClose,
   addQuestion,
@@ -33,6 +34,7 @@ const AddQuestionModal = ({
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [snackbarText, setSnackbarText] = useState("");
   const [company, setCompany] = useState("");
+  const [position, setPosition] = useState("");
 
   const closeModal = () => {
     if (loading) return;
@@ -76,16 +78,12 @@ const AddQuestionModal = ({
             question: "",
             answer: "",
             links: "",
-            position: "",
             tags: "",
           }}
           validate={values => {
             const errors = {};
             if (!values.question.trim()) {
               errors.question = "Required";
-            }
-            if (!values.position.trim()) {
-              errors.position = "Required";
             }
             if (!values.tags.trim()) {
               errors.tags = "Required";
@@ -96,11 +94,12 @@ const AddQuestionModal = ({
             const apiData = { ...values };
             apiData.interviewType = interviewType;
             apiData.company = company.label;
+            apiData.position = position.label;
             apiData.createdAt = Date.now();
             apiData.createdBy = user.uid;
             apiData.createdByName = user.name;
             setLoading(true);
-            addQuestion(apiData, company)
+            addQuestion(apiData, company, position)
               .then(res => {
                 setShowSnackbar("success");
                 setSnackbarText("Question shared successfully!");
@@ -145,14 +144,11 @@ const AddQuestionModal = ({
                 value={company}
               />
 
-              <InputField
-                id="position"
-                name="position"
-                label="Position"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.position}
-                error={touched.position && errors.position}
+              <CreatableSelect
+                isClearable
+                onChange={setPosition}
+                options={positions}
+                value={position}
               />
               {renderInfoText(
                 "e.g React intern, back end developer, QA, designer, etc"

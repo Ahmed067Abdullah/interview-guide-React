@@ -16,9 +16,17 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const FiltersModal = ({ classes, open, companies, handleClose, setFilters }) => {
+const FiltersModal = ({
+  classes,
+  open,
+  companies,
+  positions,
+  handleClose,
+  setFilters,
+}) => {
   const [interviewType, setInterviewType] = useState("All");
-  const [company,  setCompany] = useState('');
+  const [company, setCompany] = useState("");
+  const [position, setPosition] = useState("");
 
   const renderInfoText = text => <p className={classes["info-text"]}>{text}</p>;
 
@@ -28,7 +36,6 @@ const FiltersModal = ({ classes, open, companies, handleClose, setFilters }) => 
   const clearFilters = () => {
     setFilters({
       text: "",
-      position: "",
       tags: "",
       type: "",
     });
@@ -60,7 +67,7 @@ const FiltersModal = ({ classes, open, companies, handleClose, setFilters }) => 
             position: "",
             tags: "",
           }}
-          onSubmit={({ text, position, tags }) => {
+          onSubmit={({ text, tags }) => {
             setFilters({
               text: text.trim(),
               company: company.trim(),
@@ -81,26 +88,19 @@ const FiltersModal = ({ classes, open, companies, handleClose, setFilters }) => 
                 onBlur={handleBlur}
                 value={values.text}
               />
-              {renderInfoText(
-                "Text in question/answer"
-              )}
+              {renderInfoText("Text in question/answer")}
               <Select
-                  label="Company"
-                  handleChange={e => setCompany(e.target.value)}
-                  value={company}
-                  options={companies}
-                />
-              <InputField
-                id="position"
-                name="position"
-                label="Position"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.position}
+                label="Company"
+                handleChange={e => setCompany(e.target.value)}
+                value={company}
+                options={companies}
               />
-              {renderInfoText(
-                "e.g React intern, back end developer, QA, designer, etc"
-              )}
+              <Select
+                label="Position"
+                handleChange={e => setPosition(e.target.value)}
+                value={position}
+                options={positions}
+              />
               <div className={classes["interview-type-container"]}>
                 <Select
                   label="Interview Type"
