@@ -50,6 +50,8 @@ const Questions = ({ callLogout, classes, user }) => {
     let questions = [...allQuestions];
     const { text, company, position, type, tags } = filters;
 
+    console.log(position);
+
     // filter for interview type
     if (type && type !== "All") {
       questions = questions.reduce((acc, q) => {
@@ -59,13 +61,19 @@ const Questions = ({ callLogout, classes, user }) => {
     }
 
     // filter for company name
-    if (company) {
-      questions = search(questions, "company", company);
+    if (company.length) {
+      questions = questions.reduce((acc, q) => {
+        if (company.find(c => c.toLowerCase() === q.company.toLowerCase())) acc.push(q);
+        return acc;
+      }, []);
     }
 
     // filter for position
-    if (position) {
-      questions = search(questions, "position", position);
+    if (position.length) {
+      questions = questions.reduce((acc, q) => {
+        if (position.find(p => p.toLowerCase() === q.position.toLowerCase())) acc.push(q);
+        return acc;
+      }, []);
     }
 
     // filter for tags

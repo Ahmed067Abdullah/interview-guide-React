@@ -6,7 +6,14 @@ import Select from "@material-ui/core/Select";
 import styles from "./Select.styles";
 import { withStyles } from "@material-ui/core/styles";
 
-const IGSelect = ({ classes, label, options, value, handleChange }) => {
+const IGSelect = ({
+  classes,
+  label,
+  options,
+  value,
+  handleChange,
+  multiple = false,
+}) => {
   return (
     <FormControl
       variant="outlined"
@@ -18,9 +25,12 @@ const IGSelect = ({ classes, label, options, value, handleChange }) => {
         id="demo-simple-select-outlined"
         value={value}
         onChange={handleChange}
+        multiple={multiple}
       >
         {options.map(o => (
-          <MenuItem key={o.value} value={o.value}>{o.label}</MenuItem>
+          <MenuItem key={o.value} value={o.value}>
+            {o.label}
+          </MenuItem>
         ))}
       </Select>
     </FormControl>

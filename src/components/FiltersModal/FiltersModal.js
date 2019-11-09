@@ -25,8 +25,8 @@ const FiltersModal = ({
   setFilters,
 }) => {
   const [interviewType, setInterviewType] = useState("All");
-  const [company, setCompany] = useState("");
-  const [position, setPosition] = useState("");
+  const [company, setCompany] = useState([]);
+  const [position, setPosition] = useState([]);
 
   const renderInfoText = text => <p className={classes["info-text"]}>{text}</p>;
 
@@ -70,8 +70,8 @@ const FiltersModal = ({
           onSubmit={({ text, tags }) => {
             setFilters({
               text: text.trim(),
-              company: company.trim(),
-              position: position.trim(),
+              company: company,
+              position: position,
               tags: tags.trim(),
               type: interviewType,
             });
@@ -92,11 +92,13 @@ const FiltersModal = ({
               <Select
                 label="Company"
                 handleChange={e => setCompany(e.target.value)}
+                multiple
                 value={company}
                 options={companies}
               />
               <Select
                 label="Position"
+                multiple
                 handleChange={e => setPosition(e.target.value)}
                 value={position}
                 options={positions}
