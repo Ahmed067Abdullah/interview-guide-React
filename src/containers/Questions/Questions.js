@@ -21,8 +21,8 @@ const Questions = ({ callLogout, classes, user }) => {
   const [allPositions, setAllPositions] = useState([]);
   const [filters, setFilters] = useState({
     text: "",
-    company: "",
-    position: "",
+    company: [],
+    position: [],
     type: "",
     tags: "",
   });
@@ -49,8 +49,6 @@ const Questions = ({ callLogout, classes, user }) => {
   const applyFilters = () => {
     let questions = [...allQuestions];
     const { text, company, position, type, tags } = filters;
-
-    console.log(position);
 
     // filter for interview type
     if (type && type !== "All") {
@@ -101,8 +99,8 @@ const Questions = ({ callLogout, classes, user }) => {
         callLogout={callLogout}
         filtersApplied={
           filters.text ||
-          filters.company ||
-          filters.position ||
+          filters.company.length ||
+          filters.position.length ||
           filters.type ||
           filters.tags
         }

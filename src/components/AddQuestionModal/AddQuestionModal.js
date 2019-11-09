@@ -44,6 +44,10 @@ const AddQuestionModal = ({
 
   const renderInfoText = text => <p className={classes["info-text"]}>{text}</p>;
 
+  const renderErrorText = text => (
+    <p className={classes["error-text"]}>{text}</p>
+  );
+
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -88,6 +92,12 @@ const AddQuestionModal = ({
             }
             if (!values.tags.trim()) {
               errors.tags = "Required";
+            }
+            if (!company) {
+              errors.company = "Required";
+            }
+            if (!position) {
+              errors.position = "Required";
             }
             return errors;
           }}
@@ -146,6 +156,7 @@ const AddQuestionModal = ({
                 styles={dropdownStyles}
                 value={company}
               />
+              {errors.company && renderErrorText("Required")}
               {renderInfoText(
                 "If your company is not listed then you can type it's name. It would be available in the options once you submit the form"
               )}
@@ -158,6 +169,7 @@ const AddQuestionModal = ({
                 styles={dropdownStyles}
                 value={position}
               />
+              {errors.position && renderErrorText("Required")}
               {renderInfoText(
                 "If your position is not listed then you can type it. It would be available in the options once you submit the form. E.g React intern, back end developer, QA, designer, etc"
               )}

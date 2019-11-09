@@ -38,6 +38,8 @@ const FiltersModal = ({
       text: "",
       tags: "",
       type: "",
+      company: [],
+      position: [],
     });
     handleClose(false);
   };
