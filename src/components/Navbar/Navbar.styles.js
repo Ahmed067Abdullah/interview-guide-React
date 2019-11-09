@@ -7,7 +7,11 @@ const styles = {
     height: '50px',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: 'calc(100% - 20px)'
   },
   'navbar-action': {
     color: colors.white,

@@ -123,7 +123,12 @@ const Auth = ({ classes, user, callSignin, callSignup, history }) => {
             </form>
           )}
         </Formik>
-        <p className={classes["toggle-text"]}>
+        <p
+          className={classes["toggle-text"]}
+          style={{
+            pointerEvents: loading ? "none" : "",
+          }}
+        >
           {toggleText}
           <span className={classes["toggle-link"]} onClick={toggleForm}>
             {toggleLink}

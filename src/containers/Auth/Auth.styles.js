@@ -9,7 +9,8 @@ const styles = {
     },
     'auth-card': {
       '@media(max-width:768px)': {
-        width: '90%'
+        width: '95%',
+        minWidth: '95%'
       },
       display: 'flex',
       flexDirection: 'column',

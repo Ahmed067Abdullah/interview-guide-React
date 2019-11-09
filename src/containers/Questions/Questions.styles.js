@@ -5,10 +5,11 @@ const styles = {
     width: '80%',
     minWidth: '340px',
     maxWidth: '1000px',
-    margin: 'auto'
+    margin: 'auto',
+    marginTop: '70px'
   },
   'main-loader-container': {
-    height: 'calc(100vh - 50px)',
+    height: 'calc(100vh - 70px)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
