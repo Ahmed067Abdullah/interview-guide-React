@@ -10,6 +10,7 @@ import {
   getAllQuestions,
   getAllCompanies,
   getAllPositions,
+  getAllTags,
 } from "./Questions.service";
 import styles from "./Questions.styles";
 import Loader from "../../components/Loader/Loader";
@@ -19,12 +20,13 @@ const Questions = ({ callLogout, classes, user }) => {
   const [allQuestions, setAllQuestions] = useState([]);
   const [allCompanies, setAllCompanies] = useState([]);
   const [allPositions, setAllPositions] = useState([]);
+  const [allTags, setAllTags] = useState([]);
   const [filters, setFilters] = useState({
     text: "",
     company: [],
     position: [],
     type: "",
-    tags: "",
+    tags: [],
   });
   const [loading, setLoading] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -34,17 +36,9 @@ const Questions = ({ callLogout, classes, user }) => {
     setLoading(true);
     getAllCompanies(setAllCompanies);
     getAllPositions(setAllPositions);
+    getAllTags(setAllTags);
     getAllQuestions(setAllQuestions, setLoading);
   }, []);
-
-  const search = (array, searchKey, searchText) => {
-    const regex = new RegExp(searchText, "gi");
-    array = array.reduce((acc, q) => {
-      if (q[searchKey].match(regex)) acc.push(q);
-      return acc;
-    }, []);
-    return array;
-  };
 
   const applyFilters = () => {
     let questions = [...allQuestions];
@@ -61,7 +55,8 @@ const Questions = ({ callLogout, classes, user }) => {
     // filter for company name
     if (company.length) {
       questions = questions.reduce((acc, q) => {
-        if (company.find(c => c.toLowerCase() === q.company.toLowerCase())) acc.push(q);
+        if (company.find(c => c.toLowerCase() === q.company.toLowerCase()))
+          acc.push(q);
         return acc;
       }, []);
     }
@@ -69,14 +64,25 @@ const Questions = ({ callLogout, classes, user }) => {
     // filter for position
     if (position.length) {
       questions = questions.reduce((acc, q) => {
-        if (position.find(p => p.toLowerCase() === q.position.toLowerCase())) acc.push(q);
+        if (position.find(p => p.toLowerCase() === q.position.toLowerCase()))
+          acc.push(q);
         return acc;
       }, []);
     }
 
     // filter for tags
-    if (tags) {
-      questions = search(questions, "tags", tags);
+    if (tags.length) {
+      questions = questions.reduce((acc, q) => {
+        if (
+          tags.find(t => {
+            const regex = new RegExp(t, "gi");
+            if (q.tags.match(regex)) return t;
+            return null;
+          })
+        )
+          acc.push(q);
+        return acc;
+      }, []);
     }
 
     if (text) {
@@ -92,7 +98,7 @@ const Questions = ({ callLogout, classes, user }) => {
   const filteredQuestions = applyFilters();
 
   return (
-    <div>
+    <div className={classes["container"]}>
       <Navbar
         showFiltersModal={setShowFiltersModal}
         showModal={setShowAddModal}
@@ -101,23 +107,25 @@ const Questions = ({ callLogout, classes, user }) => {
           filters.text ||
           filters.company.length ||
           filters.position.length ||
-          filters.type ||
-          filters.tags
+          (filters.type && filters.type !== 'All') ||
+          filters.tags.length
         }
       />
       <AddQuestionModal
         addQuestion={addQuestion}
         open={showAddModal}
         handleClose={setShowAddModal}
-        companies={allCompanies}
-        positions={allPositions}
+        defaultCompanies={allCompanies}
+        defaultPositions={allPositions}
+        defaultTags={allTags}
         user={user}
       />
       <FiltersModal
         setFilters={setFilters}
         open={showFiltersModal}
-        companies={allCompanies}
-        positions={allPositions}
+        defaultCompanies={allCompanies}
+        defaultPositions={allPositions}
+        defaultTags={allTags}
         handleClose={setShowFiltersModal}
       />
       <div className={classes["questions-container"]}>

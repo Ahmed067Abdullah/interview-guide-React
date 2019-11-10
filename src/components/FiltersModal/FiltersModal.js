@@ -19,14 +19,16 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const FiltersModal = ({
   classes,
   open,
-  companies,
-  positions,
+  defaultCompanies,
+  defaultPositions,
+  defaultTags,
   handleClose,
   setFilters,
 }) => {
   const [interviewType, setInterviewType] = useState("All");
   const [company, setCompany] = useState([]);
   const [position, setPosition] = useState([]);
+  const [tags, setTags] = useState([]);
 
   const renderInfoText = text => <p className={classes["info-text"]}>{text}</p>;
 
@@ -34,6 +36,10 @@ const FiltersModal = ({
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const clearFilters = () => {
+    setCompany([]);
+    setPosition([]);
+    setTags([]);
+    setInterviewType("All");
     setFilters({
       text: "",
       tags: "",
@@ -65,16 +71,14 @@ const FiltersModal = ({
         </IconButton>
         <Formik
           initialValues={{
-            text: "",
-            position: "",
-            tags: "",
+            text: ""
           }}
-          onSubmit={({ text, tags }) => {
+          onSubmit={({ text }) => {
             setFilters({
               text: text.trim(),
               company: company,
               position: position,
-              tags: tags.trim(),
+              tags: tags,
               type: interviewType,
             });
             handleClose(false);
@@ -96,14 +100,14 @@ const FiltersModal = ({
                 handleChange={e => setCompany(e.target.value)}
                 multiple
                 value={company}
-                options={companies}
+                options={defaultCompanies}
               />
               <Select
                 label="Position"
                 multiple
                 handleChange={e => setPosition(e.target.value)}
                 value={position}
-                options={positions}
+                options={defaultPositions}
               />
               <div className={classes["interview-type-container"]}>
                 <Select
@@ -117,17 +121,13 @@ const FiltersModal = ({
                   ]}
                 />
               </div>
-              <InputField
-                id="tags"
-                name="tags"
+              <Select
                 label="Tags"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.tags}
+                handleChange={e => setTags(e.target.value)}
+                multiple
+                value={tags}
+                options={defaultTags}
               />
-              {renderInfoText(
-                "e.g: OOP, datastructures, javascript, polymorphism, etc"
-              )}
               <div className={classes["btns-container"]}>
                 <Button
                   color="secondary"

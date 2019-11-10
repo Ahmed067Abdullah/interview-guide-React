@@ -23,8 +23,9 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const AddQuestionModal = ({
   classes,
-  companies,
-  positions,
+  defaultCompanies,
+  defaultPositions,
+  defaultTags,
   open,
   handleClose,
   addQuestion,
@@ -36,6 +37,7 @@ const AddQuestionModal = ({
   const [snackbarText, setSnackbarText] = useState("");
   const [company, setCompany] = useState("");
   const [position, setPosition] = useState("");
+  const [tags, setTags] = useState([]);
 
   const closeModal = () => {
     if (loading) return;
@@ -90,14 +92,14 @@ const AddQuestionModal = ({
             if (!values.question.trim()) {
               errors.question = "Required";
             }
-            if (!values.tags.trim()) {
-              errors.tags = "Required";
-            }
             if (!company) {
               errors.company = "Required";
             }
             if (!position) {
               errors.position = "Required";
+            }
+            if (!tags.length) {
+              errors.tags = "Required";
             }
             return errors;
           }}
@@ -106,11 +108,12 @@ const AddQuestionModal = ({
             apiData.interviewType = interviewType;
             apiData.company = company.label;
             apiData.position = position.label;
+            apiData.tags = tags.reduce((acc, t) => acc + `${t.label} `, '');
             apiData.createdAt = Date.now();
             apiData.createdBy = user.uid;
             apiData.createdByName = user.name;
             setLoading(true);
-            addQuestion(apiData, company, position)
+            addQuestion(apiData, company, position, tags)
               .then(res => {
                 setShowSnackbar("success");
                 setSnackbarText("Question shared successfully!");
@@ -120,7 +123,7 @@ const AddQuestionModal = ({
               })
               .catch(err => {
                 setShowSnackbar("error");
-                setSnackbarText("Error occured while sharing question");
+                setSnackbarText(err);
               })
               .finally(() => setLoading(false));
           }}
@@ -152,11 +155,11 @@ const AddQuestionModal = ({
                 isClearable
                 onChange={setCompany}
                 placeholder="Company"
-                options={companies}
+                options={defaultCompanies}
                 styles={dropdownStyles}
                 value={company}
               />
-              {errors.company && renderErrorText("Required")}
+              {touched.company && errors.company && renderErrorText("Required")}
               {renderInfoText(
                 "If your company is not listed then you can type it's name. It would be available in the options once you submit the form"
               )}
@@ -164,12 +167,12 @@ const AddQuestionModal = ({
               <CreatableSelect
                 isClearable
                 onChange={setPosition}
-                options={positions}
+                options={defaultPositions}
                 placeholder="Position"
                 styles={dropdownStyles}
                 value={position}
               />
-              {errors.position && renderErrorText("Required")}
+              {touched.position && errors.position && renderErrorText("Required")}
               {renderInfoText(
                 "If your position is not listed then you can type it. It would be available in the options once you submit the form. E.g React intern, back end developer, QA, designer, etc"
               )}
@@ -218,15 +221,16 @@ const AddQuestionModal = ({
               {renderInfoText(
                 "Related references to Stack Overflow, Youtube, Wikipedia, etc. You can provide multiple space separated link"
               )}
-              <InputField
-                id="tags"
-                name="tags"
-                label="Tags"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.tags}
-                error={touched.tags && errors.tags}
+              <CreatableSelect
+                isMulti
+                isClearable
+                onChange={setTags}
+                options={defaultTags}
+                placeholder="Tags"
+                styles={dropdownStyles}
+                value={tags}
               />
+              {touched.tags && errors.tags && renderErrorText("Required")}
               {renderInfoText(
                 "Tags would help others to quickly filter related questions. E.g: OOP, datastructures, javascript, polymorphism, etc"
               )}
