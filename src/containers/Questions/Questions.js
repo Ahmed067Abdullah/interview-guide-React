@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import { logout } from "../Auth/Auth.service";
 import {
   addQuestion,
+  addComment,
   getAllQuestions,
   getAllCompanies,
   getAllPositions,
@@ -15,6 +16,7 @@ import {
 import styles from "./Questions.styles";
 import Loader from "../../components/Loader/Loader";
 import FiltersModal from "../../components/FiltersModal/FiltersModal";
+import ViewQuestionModal from "../../components/ViewQuestionModal/ViewQuestionModal";
 
 const Questions = ({ callLogout, classes, user }) => {
   const [allQuestions, setAllQuestions] = useState([]);
@@ -31,6 +33,7 @@ const Questions = ({ callLogout, classes, user }) => {
   const [loading, setLoading] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showFiltersModal, setShowFiltersModal] = useState(false);
+  const [showViewQuestionModal, setShowViewQuestionModal] = useState("");
 
   useEffect(() => {
     setLoading(true);
@@ -39,6 +42,14 @@ const Questions = ({ callLogout, classes, user }) => {
     getAllTags(setAllTags);
     getAllQuestions(setAllQuestions, setLoading);
   }, []);
+
+  useEffect(() => {
+    if (showViewQuestionModal) {
+      setShowViewQuestionModal(
+        allQuestions.find(q => q.id === showViewQuestionModal.id)
+      );
+    }
+  }, [allQuestions, showViewQuestionModal]);
 
   const applyFilters = () => {
     let questions = [...allQuestions];
@@ -107,7 +118,7 @@ const Questions = ({ callLogout, classes, user }) => {
           filters.text ||
           filters.company.length ||
           filters.position.length ||
-          (filters.type && filters.type !== 'All') ||
+          (filters.type && filters.type !== "All") ||
           filters.tags.length
         }
       />
@@ -118,6 +129,13 @@ const Questions = ({ callLogout, classes, user }) => {
         defaultCompanies={allCompanies}
         defaultPositions={allPositions}
         defaultTags={allTags}
+        user={user}
+      />
+      <ViewQuestionModal
+        open={showViewQuestionModal}
+        length={showViewQuestionModal && showViewQuestionModal.comments.length}
+        handleClose={setShowViewQuestionModal}
+        callAddComment={addComment}
         user={user}
       />
       <FiltersModal
@@ -135,7 +153,11 @@ const Questions = ({ callLogout, classes, user }) => {
           </div>
         ) : filteredQuestions.length ? (
           filteredQuestions.map(q => (
-            <Question key={q.createdAt} question={q} />
+            <Question
+              key={q.createdAt}
+              question={q}
+              onClick={() => setShowViewQuestionModal(q)}
+            />
           ))
         ) : (
           <div className={classes["main-loader-container"]}>

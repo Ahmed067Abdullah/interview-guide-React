@@ -47,8 +47,19 @@ export const getAllQuestions = (setQuestions, setLoading) => {
   database()
     .ref("questions/")
     .on("value", snapshot => {
+      const questions = snapshot.val();
       setQuestions(
-        snapshot.val() ? Object.values(snapshot.val()).reverse() : []
+        questions
+          ? Object.keys(questions)
+              .reverse()
+              .map(q => ({
+                ...questions[q],
+                comments: questions[q].comments
+                  ? [...Object.values(questions[q].comments)]
+                  : [],
+                id: q,
+              }))
+          : []
       );
       setLoading(false);
     });
@@ -101,5 +112,16 @@ export const getAllTags = setTags => {
         tags = [];
       }
       setTags(tags);
+    });
+};
+
+export const addComment = (text, user, qid) => {
+  database()
+    .ref(`questions/${qid}/comments`)
+    .push({
+      text,
+      postedByName: user.name,
+      postedBy: user.uid,
+      postedAt: Date.now(),
     });
 };

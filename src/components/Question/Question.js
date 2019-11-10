@@ -5,8 +5,8 @@ import componentDecorator from "../../utils/componentDecorator";
 import styles from "./Question.styles";
 import moment from "moment";
 
-const Question = ({ classes, question }) => (
-  <div className={classes["question-container"]}>
+const Question = ({ classes, question, onClick }) => (
+  <div className={classes["question-container"]} onClick={onClick}>
     <div className={classes["question-info"]}>
       <p className={classes["small-text"]}>
         <i className="fas fa-user-tie"></i>
