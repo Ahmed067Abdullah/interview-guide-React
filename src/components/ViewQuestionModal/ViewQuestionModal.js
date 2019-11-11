@@ -33,7 +33,7 @@ const ViewQuestionModal = ({
 
   const addComment = e => {
     e.preventDefault();
-    const text = comment;
+    const text = comment.trim();
     callAddComment(text, user, open.id);
     setComment("");
     setTimeout(scrollToBottom, 2000);
@@ -90,7 +90,7 @@ const ViewQuestionModal = ({
               <InputField
                 id="comment"
                 name="comment"
-                label="Comment"
+                placeholder="Write comment here..."
                 multiline
                 rows={3}
                 className={classes["comment-input"]}

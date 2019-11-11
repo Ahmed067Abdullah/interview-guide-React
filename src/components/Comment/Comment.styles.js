@@ -9,6 +9,7 @@ const styles = {
     marginBottom: "-7px",
     color: colors.textColor,
     wordBreak: 'break-word',
+    whiteSpace: 'pre-wrap',
     "& > span": {
       fontWeight: 500,
     },

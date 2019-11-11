@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import AddQuestionModal from "../../components/AddQuestionModal/AddQuestionModal";
-import Question from "../../components/Question/Question";
 import { withStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 import { logout } from "../Auth/Auth.service";
@@ -17,6 +16,7 @@ import styles from "./Questions.styles";
 import Loader from "../../components/Loader/Loader";
 import FiltersModal from "../../components/FiltersModal/FiltersModal";
 import ViewQuestionModal from "../../components/ViewQuestionModal/ViewQuestionModal";
+import QuestionSummary from "../../components/QuestionSummary/QuestionSummary";
 
 const Questions = ({ callLogout, classes, user }) => {
   const [allQuestions, setAllQuestions] = useState([]);
@@ -153,7 +153,7 @@ const Questions = ({ callLogout, classes, user }) => {
           </div>
         ) : filteredQuestions.length ? (
           filteredQuestions.map(q => (
-            <Question
+            <QuestionSummary
               key={q.createdAt}
               question={q}
               onClick={() => setShowViewQuestionModal(q)}
