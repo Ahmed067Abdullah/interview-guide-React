@@ -44,6 +44,9 @@ const styles = {
   },
   "comment-input": {
     margin: "20px 20px 0px",
+    "& > div": {
+      padding: '8px 10px'
+    }
   },
   "submit-btn": {
     width: "120px",

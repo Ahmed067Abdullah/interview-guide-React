@@ -34,9 +34,8 @@ const ViewQuestionModal = ({
   const addComment = e => {
     e.preventDefault();
     const text = comment.trim();
-    callAddComment(text, user, open.id);
+    callAddComment(text, user, open.id, scrollToBottom);
     setComment("");
-    setTimeout(scrollToBottom, 2000);
   };
 
   const scrollToBottom = () => {

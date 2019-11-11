@@ -11,7 +11,8 @@ const styles = {
     position: 'fixed',
     top: 0,
     left: 0,
-    width: 'calc(100% - 20px)'
+    width: 'calc(100% - 20px)',
+    zIndex: 1
   },
   'navbar-action': {
     color: colors.white,

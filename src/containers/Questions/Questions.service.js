@@ -115,7 +115,7 @@ export const getAllTags = setTags => {
     });
 };
 
-export const addComment = (text, user, qid) => {
+export const addComment = (text, user, qid, scrollToBottom) => {
   database()
     .ref(`questions/${qid}/comments`)
     .push({
@@ -123,5 +123,6 @@ export const addComment = (text, user, qid) => {
       postedByName: user.name,
       postedBy: user.uid,
       postedAt: Date.now(),
-    });
+    })
+    .then(() => setTimeout(scrollToBottom, 2000))
 };
