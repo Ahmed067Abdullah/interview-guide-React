@@ -4,17 +4,23 @@ import { connect } from "react-redux";
 import styles from "./Auth.styles";
 import { signin, signup } from "./Auth.service";
 import Button from "../../components/Button/Button";
-import InputField from "../../components/InputField/InputField";
 import { Formik } from "formik";
+import InputField from "../../components/InputField/InputField";
+import PasswordInputField from "../../components/InputField/PasswordInputField";
 
 const Auth = ({ classes, user, callSignin, callSignup, history }) => {
   const [isSigningIn, setIsSigningIn] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
   const [errorSignin, setErrorSignin] = useState("");
   const [errorSignup, setErrorSignup] = useState("");
   const [loading, setLoading] = useState(false);
 
   const toggleForm = () => {
     setIsSigningIn(!isSigningIn);
+  };
+
+  const togglePasswordField = () => {
+    setShowPassword(!showPassword);
   };
 
   let heading = "Sign Up";
@@ -103,12 +109,13 @@ const Auth = ({ classes, user, callSignin, callSignup, history }) => {
                 value={values.email}
                 error={touched.email && errors.email}
               />
-              <InputField
+              <PasswordInputField
                 id="password"
-                type="password"
+                type={showPassword ? "text": "password"}
                 name="password"
                 label="Password"
                 onChange={handleChange}
+                handleToggle={togglePasswordField}
                 onBlur={handleBlur}
                 value={values.password}
                 error={touched.password && errors.password}
