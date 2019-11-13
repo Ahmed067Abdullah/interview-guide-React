@@ -17,6 +17,8 @@ import Loader from "../../components/Loader/Loader";
 import FiltersModal from "../../components/FiltersModal/FiltersModal";
 import ViewQuestionModal from "../../components/ViewQuestionModal/ViewQuestionModal";
 import QuestionSummary from "../../components/QuestionSummary/QuestionSummary";
+import count from "../../config/noOfQuestionsPerPage";
+import InfiniteScroll from "react-infinite-scroller";
 
 const Questions = ({ callLogout, classes, user }) => {
   const [allQuestions, setAllQuestions] = useState([]);
@@ -34,6 +36,7 @@ const Questions = ({ callLogout, classes, user }) => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showFiltersModal, setShowFiltersModal] = useState(false);
   const [showViewQuestionModal, setShowViewQuestionModal] = useState("");
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     setLoading(true);
@@ -66,8 +69,7 @@ const Questions = ({ callLogout, classes, user }) => {
     // filter for company name
     if (company.length) {
       questions = questions.reduce((acc, q) => {
-        if (company.find(c => c === q.company))
-          acc.push(q);
+        if (company.find(c => c === q.company)) acc.push(q);
         return acc;
       }, []);
     }
@@ -75,8 +77,7 @@ const Questions = ({ callLogout, classes, user }) => {
     // filter for position
     if (position.length) {
       questions = questions.reduce((acc, q) => {
-        if (position.find(p => p === q.position))
-          acc.push(q);
+        if (position.find(p => p === q.position)) acc.push(q);
         return acc;
       }, []);
     }
@@ -106,7 +107,9 @@ const Questions = ({ callLogout, classes, user }) => {
     return questions;
   };
 
-  const filteredQuestions = applyFilters();
+  let filteredQuestions = applyFilters();
+  let maxElements = filteredQuestions.length;
+  filteredQuestions = filteredQuestions.slice(0, page * count + 1);
 
   return (
     <div className={classes["container"]}>
@@ -152,13 +155,24 @@ const Questions = ({ callLogout, classes, user }) => {
             <Loader />
           </div>
         ) : filteredQuestions.length ? (
-          filteredQuestions.map(q => (
-            <QuestionSummary
-              key={q.createdAt}
-              question={q}
-              onClick={() => setShowViewQuestionModal(q)}
-            />
-          ))
+          <>
+            <InfiniteScroll
+              pageStart={0}
+              loadMore={page => setPage(page + 1)}
+              hasMore={page * count < maxElements}
+            >
+              {filteredQuestions.map(q => (
+                <QuestionSummary
+                  key={q.createdAt}
+                  question={q}
+                  onClick={() => setShowViewQuestionModal(q)}
+                />
+              ))}
+            </InfiniteScroll>
+            <p className={classes["all-scroll-msg"]}>
+              You're all caught up! 🏆
+            </p>
+          </>
         ) : (
           <div className={classes["main-loader-container"]}>
             No Questions to Show

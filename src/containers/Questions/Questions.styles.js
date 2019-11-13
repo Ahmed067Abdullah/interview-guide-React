@@ -1,7 +1,7 @@
 import colors from "../../utils/colors";
 
 const styles = {
-  "container": {
+  container: {
     position: "relative",
     paddingTop: "50px",
   },
@@ -17,6 +17,12 @@ const styles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    fontSize: "20px",
+    color: colors.textColor,
+    fontWeight: 500,
+  },
+  "all-scroll-msg": {
+    textAlign: "center",
     fontSize: "20px",
     color: colors.textColor,
     fontWeight: 500,
