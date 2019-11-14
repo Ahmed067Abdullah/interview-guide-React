@@ -29,7 +29,7 @@ const AddQuestionModal = ({
   open,
   handleClose,
   addQuestion,
-  user,
+  user
 }) => {
   const [loading, setLoading] = useState(false);
   const [interviewType, setInterviewType] = useState("Technical");
@@ -85,7 +85,7 @@ const AddQuestionModal = ({
             question: "",
             answer: "",
             links: "",
-            tags: "",
+            tags: ""
           }}
           validate={values => {
             const errors = {};
@@ -108,7 +108,7 @@ const AddQuestionModal = ({
             apiData.interviewType = interviewType;
             apiData.company = company.label;
             apiData.position = position.label;
-            apiData.tags = tags.reduce((acc, t) => acc + `${t.label} `, '');
+            apiData.tags = tags.reduce((acc, t) => acc + `${t.label} `, "");
             apiData.createdAt = Date.now();
             apiData.createdBy = user.uid;
             apiData.createdByName = user.name;
@@ -134,12 +134,12 @@ const AddQuestionModal = ({
             touched,
             handleChange,
             handleBlur,
-            handleSubmit,
+            handleSubmit
           }) => (
             <form
               onSubmit={handleSubmit}
               style={{
-                pointerEvents: loading ? "none" : "",
+                pointerEvents: loading ? "none" : ""
               }}
             >
               <InputField
@@ -148,6 +148,8 @@ const AddQuestionModal = ({
                 label="Question"
                 onChange={handleChange}
                 onBlur={handleBlur}
+                multiline
+                rows={2}
                 value={values.question}
                 error={touched.question && errors.question}
               />
@@ -172,7 +174,9 @@ const AddQuestionModal = ({
                 styles={dropdownStyles}
                 value={position}
               />
-              {touched.position && errors.position && renderErrorText("Required")}
+              {touched.position &&
+                errors.position &&
+                renderErrorText("Required")}
               {renderInfoText(
                 "If your position is not listed then you can type it. It would be available in the options once you submit the form. E.g React intern, back end developer, QA, designer, etc"
               )}
@@ -204,6 +208,8 @@ const AddQuestionModal = ({
                 name="answer"
                 label="Answer"
                 onChange={handleChange}
+                multiline
+                rows={3}
                 onBlur={handleBlur}
                 value={values.answer}
                 error={touched.answer && errors.answer}
