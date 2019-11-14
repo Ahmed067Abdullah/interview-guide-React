@@ -4,7 +4,6 @@ import { Route, Redirect, Switch } from "react-router-dom";
 // Containers
 import Auth from "./containers/Auth/Auth";
 import Questions from "./containers/Questions/Questions";
-import Logout from "./containers/Auth/Logout/Logout";
 
 const getRoutes = status => {
   let routes = (
@@ -19,7 +18,6 @@ const getRoutes = status => {
     routes = (
       <Switch>
         <Route path="/questions" exact component={Questions} />
-        <Route path="/logout" exact component={Logout} />
         <Redirect to="/questions" />
       </Switch>
     );
