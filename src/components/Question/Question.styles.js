@@ -14,6 +14,7 @@ const styles = {
     wordBreak: "break-word",
     "& >span": {
       fontWeight: "500",
+      whiteSpace: "pre-wrap"
     },
   },
   "small-text": {
@@ -30,6 +31,7 @@ const styles = {
     margin: "5px 0",
     color: colors.textColor,
     wordBreak: "break-word",
+    whiteSpace: "pre-wrap",
     "& >span": {
       fontWeight: "500",
       marginRight: "5px",

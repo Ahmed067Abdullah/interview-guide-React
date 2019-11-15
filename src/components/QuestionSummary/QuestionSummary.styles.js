@@ -16,6 +16,7 @@ const styles = {
     wordBreak: "break-word",
     "& >span": {
       fontWeight: "500",
+      whiteSpace: "pre-wrap"
     },
   },
   "small-text": {

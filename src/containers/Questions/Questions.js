@@ -166,8 +166,8 @@ const Questions = ({ callLogout, classes, user }) => {
           </div>
         ) : filteredQuestions.length ? (
           <>
-            <p className={classes["count-text"]} id="top">
-              Showing <span>{filteredQuestions.length}</span> questions
+            <p className={classes["count-text"]}>
+              Showing <span>{filteredQuestions.length}</span> question(s)
             </p>
             <InfiniteScroll
               pageStart={0}
