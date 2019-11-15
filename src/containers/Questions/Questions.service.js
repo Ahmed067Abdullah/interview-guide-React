@@ -1,10 +1,19 @@
 import { database } from "firebase";
 
-export const addQuestion = (question, company, position, tags) =>
+export const addQuestion = (
+  question,
+  company,
+  defaultCompanies,
+  position,
+  defaultPositions,
+  tags,
+  defaultTags
+) =>
   new Promise((resolve, reject) => {
     const newTags = [];
     for (let i = 0; i < tags.length; i++) {
-      if (tags[i].__isNew__) {
+      if (tags[i].__isNew__ &&
+        !defaultTags.find(t => t.label === tags[i].label)) {
         newTags.push(tags[i].label);
       }
     }
@@ -12,15 +21,18 @@ export const addQuestion = (question, company, position, tags) =>
       reject("There are too many new tags");
       return;
     }
-
-    if (company.__isNew__) {
+    if (
+      company.__isNew__ &&
+      !defaultCompanies.find(c => c.label === company.label)
+    ) {
       database()
         .ref("companies/")
         .push(company.label)
         .then(() => console.log("Successfully added company"))
         .catch(() => console.log("Error occured while adding company"));
     }
-    if (position.__isNew__) {
+    if (position.__isNew__ &&
+      !defaultPositions.find(p => p.label === position.label)) {
       database()
         .ref("positions/")
         .push(position.label)
@@ -57,7 +69,7 @@ export const getAllQuestions = (setQuestions, setLoading) => {
                 comments: questions[q].comments
                   ? [...Object.values(questions[q].comments)]
                   : [],
-                id: q,
+                id: q
               }))
           : []
       );
@@ -122,7 +134,7 @@ export const addComment = (text, user, qid, scrollToBottom) => {
       text,
       postedByName: user.name,
       postedBy: user.uid,
-      postedAt: Date.now(),
+      postedAt: Date.now()
     })
-    .then(() => setTimeout(scrollToBottom, 2000))
+    .then(() => setTimeout(scrollToBottom, 2000));
 };

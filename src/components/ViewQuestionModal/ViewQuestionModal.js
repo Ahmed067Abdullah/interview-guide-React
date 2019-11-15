@@ -11,6 +11,7 @@ import Question from "../Question/Question";
 import Comment from "../Comment/Comment";
 import InputField from "../InputField/InputField";
 import Button from "../Button/Button";
+import SupportQuestion from "../SupportQuestion/SupportQuestion";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -24,6 +25,7 @@ const ViewQuestionModal = ({
   callAddComment,
 }) => {
   const [comment, setComment] = useState("");
+  const [supporting, setSupporting] = useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -66,6 +68,11 @@ const ViewQuestionModal = ({
           <div className={classes["content-container"]}>
             <p className={classes["heading"]}>Question</p>
             <Question question={open} />
+            <div className={classes["divider"]} />
+            <SupportQuestion
+              toggleSupporting={setSupporting}
+              supporting={supporting}
+            />
             <div className={classes["divider"]} />
             <p className={classes["heading"]}>Discussion</p>
             <div

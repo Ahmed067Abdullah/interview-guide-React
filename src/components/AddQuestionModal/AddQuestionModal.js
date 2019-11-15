@@ -113,7 +113,15 @@ const AddQuestionModal = ({
             apiData.createdBy = user.uid;
             apiData.createdByName = user.name;
             setLoading(true);
-            addQuestion(apiData, company, position, tags)
+            addQuestion(
+              apiData,
+              company,
+              defaultCompanies,
+              position,
+              defaultPositions,
+              tags,
+              defaultTags
+            )
               .then(res => {
                 setShowSnackbar("success");
                 setSnackbarText("Question shared successfully!");
@@ -163,7 +171,7 @@ const AddQuestionModal = ({
               />
               {touched.company && errors.company && renderErrorText("Required")}
               {renderInfoText(
-                "If your company is not listed then you can type it's name. It would be available in the options once you submit the form"
+                "If your company is not listed then you can type it's name and create it. It would be available in the options once you submit the form"
               )}
 
               <CreatableSelect
@@ -178,7 +186,7 @@ const AddQuestionModal = ({
                 errors.position &&
                 renderErrorText("Required")}
               {renderInfoText(
-                "If your position is not listed then you can type it. It would be available in the options once you submit the form. E.g React intern, back end developer, QA, designer, etc"
+                "If your position is not listed then you can create it by typing your position. It would be available in the options once you submit the form. E.g React intern, back end developer, QA, designer, etc"
               )}
               <div className={classes["interview-type-container"]}>
                 <span>Interview Type: </span>
@@ -225,7 +233,7 @@ const AddQuestionModal = ({
                 error={touched.links && errors.links}
               />
               {renderInfoText(
-                "Related references to Stack Overflow, Youtube, Wikipedia, etc. You can provide multiple space separated link"
+                "Related references to Stack Overflow, Youtube, Wikipedia, etc. You can provide multiple space separated links"
               )}
               <CreatableSelect
                 isMulti
@@ -238,7 +246,7 @@ const AddQuestionModal = ({
               />
               {touched.tags && errors.tags && renderErrorText("Required")}
               {renderInfoText(
-                "Tags would help others to quickly filter related questions. E.g: OOP, datastructures, javascript, polymorphism, etc"
+                "Tags would help others to quickly filter related questions. Please avoid making unncessary/repetitive tags"
               )}
               <Button
                 type="submit"

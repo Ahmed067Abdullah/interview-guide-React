@@ -10,7 +10,7 @@ import {
   getAllQuestions,
   getAllCompanies,
   getAllPositions,
-  getAllTags
+  getAllTags,
 } from "./Questions.service";
 import styles from "./Questions.styles";
 import Loader from "../../components/Loader/Loader";
@@ -18,7 +18,7 @@ import FiltersModal from "../../components/FiltersModal/FiltersModal";
 import ViewQuestionModal from "../../components/ViewQuestionModal/ViewQuestionModal";
 import QuestionSummary from "../../components/QuestionSummary/QuestionSummary";
 import IconButton from "@material-ui/core/IconButton";
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import count from "../../config/noOfQuestionsPerPage";
 import InfiniteScroll from "react-infinite-scroller";
 
@@ -32,7 +32,7 @@ const Questions = ({ callLogout, classes, user }) => {
     company: [],
     position: [],
     type: "",
-    tags: []
+    tags: [],
   });
   const [loading, setLoading] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -57,8 +57,8 @@ const Questions = ({ callLogout, classes, user }) => {
   }, [allQuestions, showViewQuestionModal]);
 
   const scrollToTop = () => {
-    window.scrollTo(0,0)
-  }
+    window.scrollTo(0, 0);
+  };
 
   const applyFilters = () => {
     let questions = [...allQuestions];
@@ -163,7 +163,7 @@ const Questions = ({ callLogout, classes, user }) => {
         ) : filteredQuestions.length ? (
           <>
             <p className={classes["count-text"]} id="top">
-              Showing <span>13</span> questions
+              Showing <span>{filteredQuestions.length}</span> questions
             </p>
             <InfiniteScroll
               pageStart={0}
@@ -178,12 +178,16 @@ const Questions = ({ callLogout, classes, user }) => {
                 />
               ))}
             </InfiniteScroll>
-            <IconButton className={classes["up-arrow"]} aria-label="delete" onClick={scrollToTop}>
-              <ArrowUpwardIcon />
-            </IconButton>
             <p className={classes["all-scroll-msg"]}>
               You're all caught up! 🏆
             </p>
+            <IconButton
+              className={classes["up-arrow"]}
+              aria-label="delete"
+              onClick={scrollToTop}
+            >
+              <ArrowUpwardIcon />
+            </IconButton>
           </>
         ) : (
           <div className={classes["main-loader-container"]}>
@@ -196,11 +200,11 @@ const Questions = ({ callLogout, classes, user }) => {
 };
 
 const mapStateToProps = state => ({
-  user: state.auth.user
+  user: state.auth.user,
 });
 
 const mapDispatchToProps = dispatch => ({
-  callLogout: () => dispatch(logout())
+  callLogout: () => dispatch(logout()),
 });
 
 export default connect(

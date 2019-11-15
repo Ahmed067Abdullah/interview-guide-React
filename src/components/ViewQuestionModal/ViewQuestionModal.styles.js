@@ -9,6 +9,10 @@ const styles = {
     position: "absolute",
     top: "0px",
     right: "0px",
+    "@media(max-width:600px)": {
+      top: "5px",
+      right: "5px",    
+    }
   },
   heading: {
     color: colors.primay,
