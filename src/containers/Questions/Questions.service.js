@@ -1,5 +1,25 @@
 import { database } from "firebase";
 
+const publishNewEntry = (type, entry, prevEntries) => {
+  if (entry.__isNew__ && !prevEntries.find(c => c.label === entry.label)) {
+    publishEntry(type, entry.label);
+  }
+};
+
+const publishEntry = (type, entry, res, rej) => {
+  database()
+    .ref(`${type}/`)
+    .push(entry)
+    .then(() => {
+      console.log(`Successfully added entry to ${type}`);
+      if (res) res("Successfully added question");
+    })
+    .catch(() => {
+      console.log(`Error occured while adding entry to ${type}`);
+      if (rej) rej("Error occured while adding question");
+    });
+};
+
 export const addQuestion = (
   question,
   company,
@@ -12,8 +32,10 @@ export const addQuestion = (
   new Promise((resolve, reject) => {
     const newTags = [];
     for (let i = 0; i < tags.length; i++) {
-      if (tags[i].__isNew__ &&
-        !defaultTags.find(t => t.label === tags[i].label)) {
+      if (
+        tags[i].__isNew__ &&
+        !defaultTags.find(t => t.label === tags[i].label)
+      ) {
         newTags.push(tags[i].label);
       }
     }
@@ -21,38 +43,16 @@ export const addQuestion = (
       reject("There are too many new tags");
       return;
     }
-    if (
-      company.__isNew__ &&
-      !defaultCompanies.find(c => c.label === company.label)
-    ) {
-      database()
-        .ref("companies/")
-        .push(company.label)
-        .then(() => console.log("Successfully added company"))
-        .catch(() => console.log("Error occured while adding company"));
-    }
-    if (position.__isNew__ &&
-      !defaultPositions.find(p => p.label === position.label)) {
-      database()
-        .ref("positions/")
-        .push(position.label)
-        .then(() => console.log("Successfully added position"))
-        .catch(() => console.log("Error occured while adding position"));
-    }
+
+    publishNewEntry("companies", company, defaultCompanies);
+
+    publishNewEntry("positions", position, defaultPositions);
 
     for (let i = 0; i < newTags.length; i++) {
-      database()
-        .ref("tags/")
-        .push(newTags[i])
-        .then(() => console.log("Successfully added tag"))
-        .catch(() => console.log("Error occured while adding tag"));
+      publishEntry("tags", newTags[i]);
     }
 
-    database()
-      .ref("questions/")
-      .push(question)
-      .then(res => resolve("Successfully added question"))
-      .catch(err => reject("Error occured while storing question"));
+    publishEntry("questions", question, resolve, reject);
   });
 
 export const getAllQuestions = (setQuestions, setLoading) => {
@@ -69,7 +69,7 @@ export const getAllQuestions = (setQuestions, setLoading) => {
                 comments: questions[q].comments
                   ? [...Object.values(questions[q].comments)]
                   : [],
-                id: q
+                id: q,
               }))
           : []
       );
@@ -134,7 +134,29 @@ export const addComment = (text, user, qid, scrollToBottom) => {
       text,
       postedByName: user.name,
       postedBy: user.uid,
-      postedAt: Date.now()
+      postedAt: Date.now(),
     })
     .then(() => setTimeout(scrollToBottom, 2000));
+};
+
+export const callSupportQuestion = (
+  question,
+  company,
+  defaultCompanies,
+  position,
+  defaultPositions
+) => {
+  publishNewEntry("companies", company, defaultCompanies);
+  publishNewEntry("positions", position, defaultPositions);
+
+  const temp = { ...question };
+  temp.company = `${temp.company}, ${company.label}`;
+  temp.position = `${temp.position}, ${position.label}`;
+
+  database()
+    .ref(`questions/${temp.id}/company/`)
+    .set(temp.company);
+  database()
+    .ref(`questions/${temp.id}/position/`)
+    .set(temp.position);
 };

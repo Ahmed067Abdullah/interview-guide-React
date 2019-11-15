@@ -11,9 +11,21 @@ const SupportQuestion = ({
   supporting,
   defaultCompanies,
   defaultPositions,
+  supportQuestion,
 }) => {
   const [company, setCompany] = useState("");
   const [position, setPosition] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleSubmmit = () => {
+    setSubmitting(true);
+    supportQuestion(company, position);
+    setTimeout(() => {
+      setCompany("");
+      setPosition("");
+      setSubmitting(false);
+    }, 2000);
+  };
   return (
     <div className={classes["support-container"]}>
       {supporting ? (
@@ -37,14 +49,15 @@ const SupportQuestion = ({
           <div className={classes["support-action-container"]}>
             <Button
               color="secondary"
+              disabled={submitting}
               onClick={() => toggleSupporting(false)}
               className={classes["cancl-btn"]}
             >
               Cancel
             </Button>
             <Button
-              disabled={!(position && company)}
-              onClick={() => toggleSupporting(false)}
+              disabled={!(position && company) || submitting}
+              onClick={handleSubmmit}
             >
               Save
             </Button>

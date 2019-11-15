@@ -25,6 +25,7 @@ const ViewQuestionModal = ({
   handleClose,
   user,
   callAddComment,
+  callSupportQuestion,
 }) => {
   const [comment, setComment] = useState("");
   const [supporting, setSupporting] = useState(false);
@@ -41,6 +42,10 @@ const ViewQuestionModal = ({
     const text = comment.trim();
     callAddComment(text, user, open.id, scrollToBottom);
     setComment("");
+  };
+
+  const supportQuestion = (c, p) => {
+    callSupportQuestion(open, c, defaultCompanies, p, defaultPositions);
   };
 
   const scrollToBottom = () => {
@@ -75,6 +80,7 @@ const ViewQuestionModal = ({
             <SupportQuestion
               toggleSupporting={setSupporting}
               supporting={supporting}
+              supportQuestion={supportQuestion}
               defaultCompanies={defaultCompanies}
               defaultPositions={defaultPositions}
             />

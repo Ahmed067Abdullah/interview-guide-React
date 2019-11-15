@@ -7,6 +7,7 @@ import { logout } from "../Auth/Auth.service";
 import {
   addQuestion,
   addComment,
+  callSupportQuestion,
   getAllQuestions,
   getAllCompanies,
   getAllPositions,
@@ -146,6 +147,7 @@ const Questions = ({ callLogout, classes, user }) => {
         handleClose={setShowViewQuestionModal}
         defaultCompanies={allCompanies}
         defaultPositions={allPositions}
+        callSupportQuestion={callSupportQuestion}
         callAddComment={addComment}
         user={user}
       />
