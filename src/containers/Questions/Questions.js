@@ -76,7 +76,7 @@ const Questions = ({ callLogout, classes, user }) => {
     // filter for company name
     if (company.length) {
       questions = questions.reduce((acc, q) => {
-        if (company.find(c => c === q.company)) acc.push(q);
+        if (company.find(c => q.company.indexOf(c) !== -1)) acc.push(q);
         return acc;
       }, []);
     }
@@ -84,7 +84,7 @@ const Questions = ({ callLogout, classes, user }) => {
     // filter for position
     if (position.length) {
       questions = questions.reduce((acc, q) => {
-        if (position.find(p => p === q.position)) acc.push(q);
+        if (position.find(p => q.position.indexOf(p) !== -1)) acc.push(q);
         return acc;
       }, []);
     }

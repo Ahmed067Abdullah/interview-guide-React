@@ -87,7 +87,6 @@ const AddQuestionModal = ({
             question: "",
             answer: "",
             links: "",
-            tags: "",
           }}
           validate={values => {
             const errors = {};
@@ -106,7 +105,10 @@ const AddQuestionModal = ({
             return errors;
           }}
           onSubmit={values => {
-            const apiData = { ...values };
+            const apiData = {};
+            apiData.question = values.question.trim();
+            apiData.answer = values.answer.trim();
+            apiData.links = values.links.trim();
             apiData.interviewType = interviewType;
             apiData.company = company.label;
             apiData.position = position.label;
