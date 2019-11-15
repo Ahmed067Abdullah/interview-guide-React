@@ -3,10 +3,10 @@ import Snackbar from "@material-ui/core/Snackbar";
 import styles from './Snackbar.styles';
 import { withStyles } from "@material-ui/core/styles";
 
-const IGSnackbar = ({ classes, message, open, showSnackbar }) => {
+const IGSnackbar = ({ classes, message, open, showSnackbar, variant }) => {
   return (
     <Snackbar
-      className={classes[open]}
+      className={classes[variant]}
       anchorOrigin={{
         vertical: "bottom",
         horizontal: "right",

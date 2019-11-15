@@ -29,12 +29,13 @@ const AddQuestionModal = ({
   open,
   handleClose,
   addQuestion,
-  user
+  user,
 }) => {
   const [loading, setLoading] = useState(false);
   const [interviewType, setInterviewType] = useState("Technical");
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [snackbarText, setSnackbarText] = useState("");
+  const [snackbarVariant, setSnackbarVariant] = useState("");
   const [company, setCompany] = useState("");
   const [position, setPosition] = useState("");
   const [tags, setTags] = useState([]);
@@ -67,6 +68,7 @@ const AddQuestionModal = ({
         message={snackbarText}
         open={showSnackbar}
         showSnackbar={setShowSnackbar}
+        variant={snackbarVariant}
       />
       <div className={classes["container"]}>
         <p className={classes["heading"]}>Share Question</p>
@@ -85,7 +87,7 @@ const AddQuestionModal = ({
             question: "",
             answer: "",
             links: "",
-            tags: ""
+            tags: "",
           }}
           validate={values => {
             const errors = {};
@@ -123,14 +125,16 @@ const AddQuestionModal = ({
               defaultTags
             )
               .then(res => {
-                setShowSnackbar("success");
+                setShowSnackbar(true);
+                setSnackbarVariant("success");
                 setSnackbarText("Question shared successfully!");
                 values.question = "";
                 values.answer = "";
                 values.links = "";
               })
               .catch(err => {
-                setShowSnackbar("error");
+                setShowSnackbar(true);
+                setSnackbarVariant("error");
                 setSnackbarText(err);
               })
               .finally(() => setLoading(false));
@@ -142,12 +146,12 @@ const AddQuestionModal = ({
             touched,
             handleChange,
             handleBlur,
-            handleSubmit
+            handleSubmit,
           }) => (
             <form
               onSubmit={handleSubmit}
               style={{
-                pointerEvents: loading ? "none" : ""
+                pointerEvents: loading ? "none" : "",
               }}
             >
               <InputField
@@ -169,7 +173,7 @@ const AddQuestionModal = ({
                 styles={dropdownStyles}
                 value={company}
               />
-              {touched.company && errors.company && renderErrorText("Required")}
+              {errors.company && renderErrorText("Required")}
               {renderInfoText(
                 "If your company is not listed then you can type it's name and create it. It would be available in the options once you submit the form"
               )}
@@ -182,9 +186,7 @@ const AddQuestionModal = ({
                 styles={dropdownStyles}
                 value={position}
               />
-              {touched.position &&
-                errors.position &&
-                renderErrorText("Required")}
+              {errors.position && renderErrorText("Required")}
               {renderInfoText(
                 "If your position is not listed then you can create it by typing your position. It would be available in the options once you submit the form. E.g React intern, back end developer, QA, designer, etc"
               )}
@@ -244,7 +246,7 @@ const AddQuestionModal = ({
                 styles={dropdownStyles}
                 value={tags}
               />
-              {touched.tags && errors.tags && renderErrorText("Required")}
+              {errors.tags && renderErrorText("Required")}
               {renderInfoText(
                 "Tags would help others to quickly filter related questions. Please avoid making unncessary/repetitive tags"
               )}
