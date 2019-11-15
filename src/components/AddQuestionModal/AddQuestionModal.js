@@ -15,7 +15,7 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import CreatableSelect from "react-select/creatable";
 import IGSnackbar from "../Snackbar/Snackbar";
-import dropdownStyles from "./dropdownStyles";
+import dropdownStyles from "../../utils/dropdownStyles";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;

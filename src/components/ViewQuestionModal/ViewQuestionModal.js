@@ -19,6 +19,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const ViewQuestionModal = ({
   classes,
+  defaultCompanies,
+  defaultPositions,
   open,
   handleClose,
   user,
@@ -26,6 +28,7 @@ const ViewQuestionModal = ({
 }) => {
   const [comment, setComment] = useState("");
   const [supporting, setSupporting] = useState(false);
+
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -72,6 +75,8 @@ const ViewQuestionModal = ({
             <SupportQuestion
               toggleSupporting={setSupporting}
               supporting={supporting}
+              defaultCompanies={defaultCompanies}
+              defaultPositions={defaultPositions}
             />
             <div className={classes["divider"]} />
             <p className={classes["heading"]}>Discussion</p>

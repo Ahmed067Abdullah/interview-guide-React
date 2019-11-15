@@ -144,6 +144,8 @@ const Questions = ({ callLogout, classes, user }) => {
         open={showViewQuestionModal}
         length={showViewQuestionModal && showViewQuestionModal.comments.length}
         handleClose={setShowViewQuestionModal}
+        defaultCompanies={allCompanies}
+        defaultPositions={allPositions}
         callAddComment={addComment}
         user={user}
       />
