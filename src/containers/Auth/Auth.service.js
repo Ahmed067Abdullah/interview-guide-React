@@ -2,6 +2,13 @@ import { database, auth } from "firebase";
 import dispatcher from "../../store/dispater";
 import { setUser, clearState } from "./Auth.action";
 
+export const verifyMe = async uid => {
+  const snapshot = await database()
+    .ref(`users/${uid}`)
+    .once("value");
+  return snapshot.val();
+};
+
 export const successfullyAuthenticated = (user, history, dispatch) => {
   dispatch(setUser(user));
   localStorage.setItem("interview-guide", JSON.stringify(user));
@@ -19,6 +26,7 @@ export const signup = ({ name, email, password }, history) => dispatch =>
     );
     if (userWithSameName) {
       reject("Name is not available");
+      return;
     }
 
     // created user if name not already taken
