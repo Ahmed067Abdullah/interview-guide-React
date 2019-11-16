@@ -45,7 +45,7 @@ const ViewQuestionModal = ({
   };
 
   const supportQuestion = (c, p) => {
-    callSupportQuestion(open, c, defaultCompanies, p, defaultPositions);
+    callSupportQuestion(open, c, defaultCompanies, p, defaultPositions, user.uid);
   };
 
   const scrollToBottom = () => {

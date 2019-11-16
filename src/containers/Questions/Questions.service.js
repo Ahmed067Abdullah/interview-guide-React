@@ -1,4 +1,5 @@
 import { database } from "firebase";
+import { verifyMe } from "../Auth/Auth.service";
 
 const publishNewEntry = (type, entry, prevEntries) => {
   if (entry.__isNew__ && !prevEntries.find(c => c.label === entry.label)) {
@@ -29,7 +30,12 @@ export const addQuestion = (
   tags,
   defaultTags
 ) =>
-  new Promise((resolve, reject) => {
+  new Promise(async (resolve, reject) => {
+    const user = await verifyMe(question.createdBy);
+    if (!user) {
+      reject("Sorry, Your account has been disabled");
+      return;
+    }
     const newTags = [];
     for (let i = 0; i < tags.length; i++) {
       if (
@@ -127,25 +133,34 @@ export const getAllTags = setTags => {
     });
 };
 
-export const addComment = (text, user, qid, scrollToBottom) => {
-  database()
+export const addComment = async (text, user, qid, scrollToBottom) => {
+  const userExists = await verifyMe(user.uid);
+  if (!userExists) {
+    return;
+  }
+  await database()
     .ref(`questions/${qid}/comments`)
     .push({
       text,
       postedByName: user.name,
       postedBy: user.uid,
       postedAt: Date.now(),
-    })
-    .then(() => setTimeout(scrollToBottom, 2000));
+    });
+  setTimeout(scrollToBottom, 2000);
 };
 
-export const callSupportQuestion = (
+export const callSupportQuestion = async (
   question,
   company,
   defaultCompanies,
   position,
-  defaultPositions
+  defaultPositions,
+  uid
 ) => {
+  const user = await verifyMe(uid);
+  if (!user) {
+    return;
+  }
   publishNewEntry("companies", company, defaultCompanies);
   publishNewEntry("positions", position, defaultPositions);
 
