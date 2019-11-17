@@ -168,27 +168,33 @@ const AddQuestionModal = ({
                 error={touched.question && errors.question}
               />
               <CreatableSelect
+                inputId="company"
                 isClearable
+                onBlur={handleBlur}
                 onChange={setCompany}
                 placeholder="Company"
                 options={defaultCompanies}
                 styles={dropdownStyles}
                 value={company}
               />
-              {errors.company && renderErrorText("Required")}
+              {touched.company && errors.company && renderErrorText("Required")}
               {renderInfoText(
                 "If your company is not listed then you can type it's name and create it. It would be available in the options once you submit the form"
               )}
 
               <CreatableSelect
+                inputId="position"
                 isClearable
                 onChange={setPosition}
+                onBlur={handleBlur}
                 options={defaultPositions}
                 placeholder="Position"
                 styles={dropdownStyles}
                 value={position}
               />
-              {errors.position && renderErrorText("Required")}
+              {touched.position &&
+                errors.position &&
+                renderErrorText("Required")}
               {renderInfoText(
                 "If your position is not listed then you can create it by typing your position. It would be available in the options once you submit the form. E.g React intern, back end developer, QA, designer, etc"
               )}
@@ -240,15 +246,17 @@ const AddQuestionModal = ({
                 "Related references to Stack Overflow, Youtube, Wikipedia, etc. You can provide multiple space separated links"
               )}
               <CreatableSelect
+                inputId="tags"
                 isMulti
                 isClearable
+                onBlur={handleBlur}
                 onChange={setTags}
                 options={defaultTags}
                 placeholder="Tags"
                 styles={dropdownStyles}
                 value={tags}
               />
-              {errors.tags && renderErrorText("Required")}
+              {touched.tags && errors.tags && renderErrorText("Required")}
               {renderInfoText(
                 "Tags would help others to quickly filter related questions. Please avoid making unncessary/repetitive tags"
               )}

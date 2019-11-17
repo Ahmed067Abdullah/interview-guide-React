@@ -20,7 +20,12 @@ const QuestionSummary = ({ classes, question, onClick }) => {
         </p>
       </div>
       <p className={classes["question"]}>
-        Q. <span>{question.question}</span>
+        Q.{" "}
+        <span>
+          {question.question.length > 256
+            ? `${question.question.slice(0, 256)}...`
+            : question.question}
+        </span>
       </p>
       <div className={classes["question-info"]}>
         <p className={classes["small-text"]}>
