@@ -114,9 +114,9 @@ const Questions = ({ callLogout, classes, user }) => {
     return questions;
   };
 
-  let filteredQuestions = applyFilters();
-  let maxElements = filteredQuestions.length;
-  filteredQuestions = filteredQuestions.slice(0, page * count + 1);
+  const filteredQuestions = applyFilters();
+  const maxElements = filteredQuestions.length;
+  const questionsToShow = filteredQuestions.slice(0, page * count + 1);
 
   return (
     <div className={classes["container"]}>
@@ -174,7 +174,7 @@ const Questions = ({ callLogout, classes, user }) => {
               loadMore={page => setPage(page + 1)}
               hasMore={page * count < maxElements}
             >
-              {filteredQuestions.map(q => (
+              {questionsToShow.map(q => (
                 <QuestionSummary
                   key={q.createdAt}
                   question={q}
