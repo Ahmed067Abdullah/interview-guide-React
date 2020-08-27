@@ -2,12 +2,16 @@ import colors from "../../utils/colors";
 
 const styles = {
   "question-container": {
+    "&:hover": {
+      boxShadow: '0px 0px 15px 0px rgba(0,0,0,0.31)'
+    },
     display: "flex",
     flexDirection: "column",
     backgroundColor: colors.white,
     borderRadius: "6px",
     padding: "10px 20px",
     margin: "15px 0",
+    transition: '0.3s linear'
   },
   question: {
     margin: "5px 0",
